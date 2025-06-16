@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ["admin", "student", "teacher"],
-        default: "null",
+        default: null,
     },
     createdAt: {
         type: Date,
@@ -35,21 +35,12 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    status: {
-        type: String,
-        enum: ["active", "inactive"],
-        default: "inactive",
+    isActive: {
+        type: Boolean,
+        default: false,
     },
     profilePicture: {
         type: String,
-        default: null,
-    },
-    otp: {
-        type: String,
-        default: null,
-    },
-    otpExpiresAt: {
-        type: Date,
         default: null,
     },
     phone: {
@@ -59,11 +50,7 @@ const userSchema = new mongoose.Schema({
     address: {
         type: String,
         default: null,
-    },
-    isVerified: {
-        type: Boolean,
-        default: false,
-    },
+    }
 })
 const User = mongoose.model("User", userSchema);
 

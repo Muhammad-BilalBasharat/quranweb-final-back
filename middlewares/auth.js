@@ -3,7 +3,7 @@ import { JWT_SECRET } from "../config/envConfig.js";
 
 const verifyToken = (req, res, next) => {
   try {
-    const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from the Authorization header
+    const token = req.headers["authorization"]?.split(" ")[1];
     if (!token) {
         return res.status(401).json({
             message: "Authorization failed",
@@ -20,8 +20,9 @@ const verifyToken = (req, res, next) => {
                 error: "Invalid token",
             });
         }
-        req.user = decoded; // Store user ID in request object for later use
-        next();// Proceed to the next middleware or route handler
+        req.userData= decoded;
+
+        next();
     });
   } catch (error) {
     return res.status(401).json({
