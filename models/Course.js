@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const courseSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+},
   title: {
     type: String,
   },
@@ -18,7 +22,7 @@ const courseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
- isActive: {
+  isActive: {
     type: Boolean,
     default: true,
   },

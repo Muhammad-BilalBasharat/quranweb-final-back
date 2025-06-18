@@ -1,4 +1,4 @@
-import  Course  from "../models/Course.js";
+import Course from "../models/Course.js";
 
 const getAllCourses = async (req, res) => {
   try {
@@ -18,6 +18,7 @@ const getAllCourses = async (req, res) => {
 
 const addCourse = async (req, res) => {
   try {
+    const { userId } = req.userData;
     const { title, description, price } = req.body;
     const validationErrors = [];
     if (!title) {
@@ -39,6 +40,7 @@ const addCourse = async (req, res) => {
       title,
       description,
       price,
+      userId: userId,
     });
     await course.save();
     res.status(200).json({
@@ -56,15 +58,16 @@ const addCourse = async (req, res) => {
 
 const deleteCourse = async (req, res) => {
   try {
-    const {id} = req.params;
-    const course = await Course.findById(id);
+    const { userId } = req.userData;
+    const { id } = req.params;
+    const course = await Course.findOneAndDelete({ _id: id, userId: userId });
     if (!course) {
       return res.status(404).json({
         message: "Course not found",
+        data: null,
         error: null,
-      });
+      })
     }
-    await course.deleteOne();
     res.status(200).json({
       message: "Course deleted successfully",
       data: course,
@@ -82,8 +85,9 @@ const deleteCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
   try {
     const { id } = req.params;
+    const { userId } = req.userData;
     const updateCourseData = req.body;
-    const course = await Course.findOneAndUpdate({ _id: id }, updateCourseData, { new: true});
+    const course = await Course.findOneAndUpdate({ _id: id, userId: userId }, updateCourseData, { new: true });
     if (!course) {
       return res.status(404).json({
         message: "Course not found",

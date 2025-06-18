@@ -12,10 +12,17 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    createAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updateAt: {
+        type: Date,
+        default: Date.now,
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true,
     },
 })
 const Student = mongoose.model("Student", studentSchema);

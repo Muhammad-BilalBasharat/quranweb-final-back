@@ -1,7 +1,7 @@
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET, JWT_EXPIRATION } from "../config/envConfig.js";1
+import { JWT_SECRET, JWT_EXPIRATION } from "../config/envConfig.js"; 1
 
 const getUsers = async (req, res) => {
   try {
@@ -45,20 +45,29 @@ const getUser = async (req, res) => {
 
 const signupUser = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, role } = req.body;
-    const validationError = [];
-    if (!name) validationError.push("Name is required");
-    if (!email) validationError.push("Email is required");
-    if (!password) validationError.push("Password is required");
-    if (!confirmPassword) validationError.push("Confirm password is required");
-    if (!role) validationError.push("Role is required");
-    if (password !== confirmPassword)
-      validationError.push("Password and confirm password do not match");
-    if (validationError.length > 0) {
+    if (!req.body) {
       return res.status(400).json({
-        message: "Validation error",
-        error: validationError,
+        message: "Invalid request",
+        error: "Request body is missing",
       });
+    }
+    const { name, email, password, confirmPassword, role } = req.body;
+
+    const errors = [
+      !name && "Name",
+      !email && "Email",
+      !password && "Password",
+      !confirmPassword && "Confirm password",
+      !role && "Role"
+    ]
+      .filter(Boolean)
+      .map(field => `${field} is required`);
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      errors.push("Password and confirm password do not match");
+    }
+    if (errors.length) {
+      return res.status(400).json({ message: "Validation error", error: errors });
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -162,7 +171,7 @@ const loginUser = async (req, res) => {
 
 const changePassword = async (req, res) => {
   try {
-    const  id  = req.userData.userId;
+    const id = req.userData.userId;
     const { oldPassword, newPassword, confirmPassword } = req.body;
     const validationError = [];
     if (!oldPassword) validationError.push("Old password is required");
@@ -224,7 +233,7 @@ const deleteUser = async (req, res) => {
     }
     // Delete the user
     await User.findByIdAndDelete(id);
-    
+
     res.status(200).json({
       message: "User deleted successfully",
       data: null,
@@ -241,7 +250,7 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email} = req.body;
+    const { name, email } = req.body;
     const validationError = [];
     if (!name) validationError.push("Name is required");
     if (!email) validationError.push("Email is required");
@@ -275,4 +284,4 @@ const updateUser = async (req, res) => {
   }
 }
 
-export { getUsers, signupUser, loginUser, changePassword, getUser,deleteUser, updateUser };
+export { getUsers, signupUser, loginUser, changePassword, getUser, deleteUser, updateUser };
