@@ -21,4 +21,5 @@ export const {
   JWT_ISSUER ,
   JWT_AUDIENCE ,
   JWT_SUBJECT ,
+  NODE_ENV,
 } = process.env;

@@ -1,7 +1,8 @@
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET, JWT_EXPIRATION } from "../config/envConfig.js"; 1
+import { JWT_SECRET, JWT_EXPIRATION,NODE_ENV } from "../config/envConfig.js";
+1;
 
 const getUsers = async (req, res) => {
   try {
@@ -58,16 +59,18 @@ const signupUser = async (req, res) => {
       !email && "Email",
       !password && "Password",
       !confirmPassword && "Confirm password",
-      !role && "Role"
+      !role && "Role",
     ]
       .filter(Boolean)
-      .map(field => `${field} is required`);
+      .map((field) => `${field} is required`);
 
     if (password && confirmPassword && password !== confirmPassword) {
       errors.push("Password and confirm password do not match");
     }
     if (errors.length) {
-      return res.status(400).json({ message: "Validation error", error: errors });
+      return res
+        .status(400)
+        .json({ message: "Validation error", error: errors });
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -153,6 +156,25 @@ const loginUser = async (req, res) => {
 
     //send response
     const { password: userPassword, ...userWithoutPassword } = user.toObject();
+
+    // Set signed token cookie (httpOnly for security)
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: NODE_ENV === "development", // HTTPS only in production
+      signed: true,
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      sameSite: "lax",
+    });
+
+    // Set signed user cookie (not httpOnly so client can access if needed)
+    res.cookie("user", JSON.stringify(userWithoutPassword), {
+      httpOnly: false,
+      secure: NODE_ENV === "development", // HTTPS only in production
+      signed: true,
+      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: "lax",
+    });
+
     res.status(200).json({
       message: "User logged in successfully",
       data: {
@@ -258,7 +280,7 @@ const updateUser = async (req, res) => {
       return res.status(400).json({
         message: "Validation error",
         error: validationError,
-      })
+      });
     }
     const user = await User.findById(id);
     if (!user) {
@@ -282,6 +304,14 @@ const updateUser = async (req, res) => {
       error: error.message,
     });
   }
-}
+};
 
-export { getUsers, signupUser, loginUser, changePassword, getUser, deleteUser, updateUser };
+export {
+  getUsers,
+  signupUser,
+  loginUser,
+  changePassword,
+  getUser,
+  deleteUser,
+  updateUser,
+};

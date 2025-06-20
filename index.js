@@ -10,11 +10,16 @@ import courseRoutes from "./routes/course.js";
 import contactRoutes from "./routes/contact.js";
 import studentRoutes from "./routes/student.js";
 import teacherRoutes from "./routes/teacher.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser("wxeftopi50"));
 app.use(helmet());
 
 // Api Routes
