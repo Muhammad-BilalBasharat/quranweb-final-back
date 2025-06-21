@@ -201,6 +201,8 @@ const changePassword = async (req, res) => {
     if (!confirmPassword) validationError.push("Confirm password is required");
     if (newPassword !== confirmPassword)
       validationError.push("New password and confirm password do not match");
+    if (newPassword === oldPassword)
+      validationError.push("New password cannot be the same as old password");
     if (validationError.length > 0) {
       return res.status(400).json({
         message: "Validation error",
