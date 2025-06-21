@@ -274,7 +274,7 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { name, email ,phone,address} = req.body;
     const validationError = [];
     if (!name) validationError.push("Name is required");
     if (!email) validationError.push("Email is required");
@@ -294,6 +294,9 @@ const updateUser = async (req, res) => {
     }
     user.name = name;
     user.email = email;
+    user.phone = phone;
+    user.address = address;
+    user.updatedAt = Date.now();
     await user.save();
     res.status(200).json({
       message: "User updated successfully",
