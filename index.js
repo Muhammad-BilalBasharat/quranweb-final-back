@@ -10,6 +10,7 @@ import courseRoutes from "./routes/course.js";
 import contactRoutes from "./routes/contact.js";
 import studentRoutes from "./routes/student.js";
 import teacherRoutes from "./routes/teacher.js";
+import contactEmailRoutes from "./routes/contactEmail.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -28,8 +29,7 @@ app.use("/api/class",courseRoutes)
 app.use("/api/contact",contactRoutes)
 app.use("/api/student",studentRoutes)
 app.use("/api/teacher",teacherRoutes)
-
-
+app.use("/api/contact",contactEmailRoutes)
 
 
 // URL and DATABASE Connection

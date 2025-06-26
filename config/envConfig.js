@@ -22,4 +22,6 @@ export const {
   JWT_AUDIENCE ,
   JWT_SUBJECT ,
   NODE_ENV,
+  EMAIL_USER,
+  EMAIL_PASS
 } = process.env;
