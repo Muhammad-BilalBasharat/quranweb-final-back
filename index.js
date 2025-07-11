@@ -8,6 +8,11 @@ import cookieParser from "cookie-parser"
 import fs from "fs"
 import { surahData } from "./data/quran/surahData.js"
 import { juzData } from "./data/quran/juzData.js"
+import userRoutes from "./routes/user.js"
+import contactRoutes from "./routes/contact.js"
+import contactEmailRoutes from "./routes/contactEmail.js"
+import studentRoutes from "./routes/student.js"
+import teacherRoutes from "./routes/teacher.js"
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -28,6 +33,12 @@ app.use(morgan("dev"))
 app.use(express.json())
 app.use(cookieParser("wxeftopi50"))
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }))
+
+app.use("/api/auth", userRoutes)
+app.use("/api/contact", contactRoutes)
+app.use("/api/contact-email", contactEmailRoutes)
+app.use("/api/student", studentRoutes)
+app.use("/api/teacher", teacherRoutes)
 
 // Static files for images
 app.use(
