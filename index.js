@@ -8,11 +8,7 @@ import cookieParser from "cookie-parser"
 import fs from "fs"
 import { surahData } from "./data/quran/surahData.js"
 import { juzData } from "./data/quran/juzData.js"
-import userRoutes from "./routes/user.js"
-import contactRoutes from "./routes/contact.js"
 import contactEmailRoutes from "./routes/contactEmail.js"
-import studentRoutes from "./routes/student.js"
-import teacherRoutes from "./routes/teacher.js"
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -34,13 +30,9 @@ app.use(express.json())
 app.use(cookieParser("wxeftopi50"))
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }))
 
-app.use("/api/auth", userRoutes)
-app.use("/api/contact", contactRoutes)
 app.use("/api/contact-email", contactEmailRoutes)
-app.use("/api/student", studentRoutes)
-app.use("/api/teacher", teacherRoutes)
 
-// Static files for images
+// Static Files For Images
 app.use(
   "/images",
   express.static(path.join(__dirname, "images"), {
@@ -51,9 +43,7 @@ app.use(
   }),
 )
 
-// API Routes
-
-// Get all surahs
+// Get All Surah
 app.get("/api/quran/surahs", (req, res) => {
   const allSurahs = Object.entries(surahData).map(([number, surah]) => ({
     surahNumber: Number.parseInt(number),
@@ -67,7 +57,7 @@ app.get("/api/quran/surahs", (req, res) => {
   })
 })
 
-// Get specific surah
+// Get Specific Surah
 app.get("/api/quran/surah/:surahNumber", (req, res) => {
   const surahNumber = req.params.surahNumber
   const surah = surahData[surahNumber]
@@ -86,7 +76,7 @@ app.get("/api/quran/surah/:surahNumber", (req, res) => {
   })
 })
 
-// Get surah pages
+// Get Surah Pages
 app.get("/api/quran/surah/:surahNumber/pages", (req, res) => {
   const surahNumber = req.params.surahNumber
   const surah = surahData[surahNumber]
@@ -102,7 +92,7 @@ app.get("/api/quran/surah/:surahNumber/pages", (req, res) => {
   for (let i = surah.startPage; i <= surah.endPage; i++) {
     pages.push({
       pageNumber: i,
-      imageUrl: `/images/${i}.png`,
+      imageUrl: `/images/${i}.jpg`,
       apiUrl: `/api/quran/page/${i}`,
     })
   }
@@ -116,7 +106,7 @@ app.get("/api/quran/surah/:surahNumber/pages", (req, res) => {
   })
 })
 
-// Get all juz
+// Get All Juz
 app.get("/api/quran/juz", (req, res) => {
   const allJuz = Object.entries(juzData).map(([number, juz]) => ({
     juzNumber: Number.parseInt(number),
@@ -130,7 +120,7 @@ app.get("/api/quran/juz", (req, res) => {
   })
 })
 
-// Get specific juz
+// Get Specific Juz
 app.get("/api/quran/juz/:juzNumber", (req, res) => {
   const juzNumber = req.params.juzNumber
   const juz = juzData[juzNumber]
@@ -149,7 +139,7 @@ app.get("/api/quran/juz/:juzNumber", (req, res) => {
   })
 })
 
-// Get juz pages
+// Get Juz Pages
 app.get("/api/quran/juz/:juzNumber/pages", (req, res) => {
   const juzNumber = req.params.juzNumber
   const juz = juzData[juzNumber]
@@ -165,7 +155,7 @@ app.get("/api/quran/juz/:juzNumber/pages", (req, res) => {
   for (let i = juz.startPage; i <= juz.endPage; i++) {
     pages.push({
       pageNumber: i,
-      imageUrl: `/images/${i}.png`,
+      imageUrl: `/images/${i}.jpg`,
       apiUrl: `/api/quran/page/${i}`,
     })
   }
@@ -179,7 +169,7 @@ app.get("/api/quran/juz/:juzNumber/pages", (req, res) => {
   })
 })
 
-// Get specific page
+// Get Specific Page
 app.get("/api/quran/page/:pageNumber", (req, res) => {
   const pageNumber = Number.parseInt(req.params.pageNumber)
 
@@ -190,12 +180,12 @@ app.get("/api/quran/page/:pageNumber", (req, res) => {
     })
   }
 
-  const imagePath = path.join(__dirname, "images", `${pageNumber}.png`)
+  const imagePath = path.join(__dirname, "images", `${pageNumber}.jpg`)
 
   if (req.query.format === "json") {
     res.json({
       pageNumber,
-      imageUrl: `/images/${pageNumber}.png`,
+      imageUrl: `/images/${pageNumber}.jpg`,
       exists: fs.existsSync(imagePath),
     })
   } else {
@@ -210,7 +200,7 @@ app.get("/api/quran/page/:pageNumber", (req, res) => {
   }
 })
 
-// Health check
+// Health Check
 app.get("/quran/health", (req, res) => {
   res.json({
     status: "OK",
@@ -221,16 +211,16 @@ app.get("/quran/health", (req, res) => {
   })
 })
 
-// Test endpoint
+// Test EndPoints
 app.get("/api/test-image/:pageNumber", (req, res) => {
   const pageNumber = req.params.pageNumber
-  const imagePath = path.join(__dirname, "images", `${pageNumber}.png`)
+  const imagePath = path.join(__dirname, "images", `${pageNumber}.jpg`)
 
   res.json({
     exists: fs.existsSync(imagePath),
     path: imagePath,
-    url: `/images/${pageNumber}.png`,
-    fullUrl: `http://${HOST}:${PORT}/images/${pageNumber}.png`,
+    url: `/images/${pageNumber}.jpg`,
+    fullUrl: `http://${HOST}:${PORT}/images/${pageNumber}.jpg`,
   })
 })
 

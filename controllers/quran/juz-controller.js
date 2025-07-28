@@ -91,7 +91,7 @@ export const getJuzPages = (req, res) => {
   for (let i = juz.startPage; i <= juz.endPage; i++) {
     pages.push({
       pageNumber: i,
-      imageUrl: `/images/${i}.png`,
+      imageUrl: `/images/${i}.jpg`,
       apiUrl: `/api/quran/page/${i}`,
     })
   }

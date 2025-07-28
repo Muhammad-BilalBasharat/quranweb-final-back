@@ -14,7 +14,7 @@ export const getAllPages = (req, res) => {
   for (let i = start; i <= end; i++) {
     pages.push({
       pageNumber: i,
-      imageUrl: `/images/${i}.png`,
+      imageUrl: `/images/${i}.jpg`,
       apiUrl: `/api/quran/page/${i}`,
     })
   }
@@ -68,7 +68,7 @@ export const getSpecificPage = (req, res) => {
     const stats = fs.statSync(imagePath)
     res.json({
       pageNumber,
-      imageUrl: `/images/${pageNumber}.png`,
+      imageUrl: `/images/${pageNumber}.jpg`,
       directImageUrl: `${req.protocol}://${req.get("host")}/api/quran/page/${pageNumber}?format=image`,
       fileSize: stats.size,
       lastModified: stats.mtime,
@@ -83,7 +83,7 @@ export const getRandomPage = (req, res) => {
 
   res.json({
     pageNumber: randomPage,
-    imageUrl: `/images/${randomPage}.png`,
+    imageUrl: `/images/${randomPage}.jpg`,
     apiUrl: `/api/quran/page/${randomPage}`,
     message: "Random Quran page",
   })

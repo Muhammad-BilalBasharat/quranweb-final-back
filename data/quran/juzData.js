@@ -27,6 +27,6 @@ export const juzData = {
   26: { name: "Ha'a Meem", arabicName: "حم", startPage: 502, endPage: 521 },
   27: { name: "Qala Fama Khatbukum", arabicName: "قال فما خطبكم", startPage: 522, endPage: 541 },
   28: { name: "Qad Sami Allah", arabicName: "قد سمع الله", startPage: 542, endPage: 561 },
-  29: { name: "Tabarakallazi", arabicName: "تبارك الذي", startPage: 562, endPage: 581 },
-  30: { name: "Amma Yatasa'aloon", arabicName: "عم يتساءلون", startPage: 582, endPage: 604 },
+  29: { name: "Tabarakallazi", arabicName: "تبارك الذي", startPage: 562, endPage: 585 },
+  30: { name: "Amma Yatasa'aloon", arabicName: "عم يتساءلون", startPage: 586, endPage: 610 },
 }

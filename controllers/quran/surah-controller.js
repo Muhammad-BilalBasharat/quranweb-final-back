@@ -91,7 +91,7 @@ export const getSurahPages = (req, res) => {
   for (let i = surah.startPage; i <= surah.endPage; i++) {
     pages.push({
       pageNumber: i,
-      imageUrl: `/images/${i}.png`,
+      imageUrl: `/images/${i}.jpg`,
       apiUrl: `/api/quran/page/${i}`,
     })
   }
