@@ -9,6 +9,7 @@ import fs from "fs"
 import { surahData } from "./data/quran/surahData.js"
 import { juzData } from "./data/quran/juzData.js"
 import contactEmailRoutes from "./routes/contactEmail.js"
+import { CLIENT_URL } from "./config/envConfig.js"
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -19,7 +20,7 @@ const __dirname = path.dirname(__filename)
 // Middleware
 app.use(
   cors({
-    origin: [],
+    origin: [CLIENT_URL],
     credentials: true,
   }),
 )
