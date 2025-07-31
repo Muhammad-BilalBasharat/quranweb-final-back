@@ -12,7 +12,6 @@ import contactEmailRoutes from "./routes/contactEmail.js"
 
 const app = express()
 const PORT = process.env.PORT || 4000
-const HOST = process.env.HOST || "127.0.0.1"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -20,7 +19,7 @@ const __dirname = path.dirname(__filename)
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: [],
     credentials: true,
   }),
 )
@@ -220,7 +219,7 @@ app.get("/api/test-image/:pageNumber", (req, res) => {
     exists: fs.existsSync(imagePath),
     path: imagePath,
     url: `/images/${pageNumber}.jpg`,
-    fullUrl: `http://${HOST}:${PORT}/images/${pageNumber}.jpg`,
+    // fullUrl: `http://${HOST}:${PORT}/images/${pageNumber}.jpg`,
   })
 })
 
@@ -242,9 +241,9 @@ app.use((req, res) => {
 })
 
 // Start server
-app.listen(PORT, HOST, () => {
-  console.log(`🚀 Server running on http://${HOST}:${PORT}`)
-  console.log(`📖 Quran API: http://${HOST}:${PORT}/quran/health`)
+app.listen(PORT, () => {
+//   console.log(`🚀 Server running on http://${HOST}:${PORT}`)
+//   console.log(`📖 Quran API: http://${HOST}:${PORT}/quran/health`)
   console.log(`📚 Total Surahs: ${Object.keys(surahData).length}`)
   console.log(`📖 Total Juz: ${Object.keys(juzData).length}`)
 

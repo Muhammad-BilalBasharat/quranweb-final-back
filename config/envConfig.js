@@ -18,6 +18,7 @@ export const {
   HOST,
   MONGODB_URI,
   NODE_ENV,
+  CLIENT_URL,
   EMAIL_USER,
   EMAIL_PASS,
 } = process.env
